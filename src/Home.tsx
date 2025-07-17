@@ -20,10 +20,10 @@ const Home = () => {
     try {
       setLoading(true);
       const fetchedEvents = await fetchEvents();
-      console.log("Fetched events:", fetchedEvents);
       setEvents(fetchedEvents);
     } catch (error) {
       console.error("Failed to load events:", error);
+      toast.error("Failed to load events. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -42,9 +42,11 @@ const Home = () => {
             new Date(`${b.date} ${b.time}`).getTime()
         )
       );
+      toast.success("Event created successfully!");
       setShowForm(false);
     } catch (err) {
       console.error("Failed to add event:", err);
+      toast.error("Failed to create event. Please check your input.");
     }
   };
 
@@ -52,8 +54,10 @@ const Home = () => {
     try {
       await deleteEvent(id);
       setEvents((prev) => prev.filter((event) => event.id !== id));
+      toast.success("Event deleted.");
     } catch (err) {
       console.error("Failed to delete event:", err);
+      toast.error("Failed to delete event.");
     }
   };
 
@@ -70,7 +74,7 @@ const Home = () => {
         updatedEvent.status === "archived" ? "Event archived" : "Event restored"
       );
     } catch (err) {
-      console.error("Failed to archive/unarchive event:", err);
+      console.error("Failed:", err);
       toast.error("Something went wrong");
     }
   };
