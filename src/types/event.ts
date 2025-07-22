@@ -9,3 +9,9 @@ export interface Event {
 }
 
 export type CreateEventData = Omit<Event, "id" | "category" | "status">;
+export interface EventListProps {
+  events: Event[];
+  loading?: boolean;
+  onDelete: (id: string) => void;
+  onArchive: (id: string) => void;
+}
