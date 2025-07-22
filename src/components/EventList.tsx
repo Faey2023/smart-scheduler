@@ -1,7 +1,14 @@
 import { Calendar, Loader2 } from "lucide-react";
-import type { EventListProps } from "../types/event";
 
-const EventList = ({ events, loading }: EventListProps) => {
+import type { EventListProps } from "../types/event";
+import EventCard from "./EventCard";
+
+const EventList = ({
+  events,
+  loading,
+  onDelete,
+  onArchive,
+}: EventListProps) => {
   if (loading) {
     return (
       <div className="w-full bg-white rounded-lg shadow-lg border border-gray-200">
@@ -35,10 +42,25 @@ const EventList = ({ events, loading }: EventListProps) => {
   }
 
   return (
-    <div>
-      <h1>event list</h1>
+    <div className="space-y-4">
+      <div className="flex items-center gap-2 mb-6">
+        <Calendar className="size-5 text-gray-600" />
+        <h2 className="text-lg font-semibold text-gray-900">
+          Upcoming Events ({events.length})
+        </h2>
+      </div>
+
+      <div className="grid gap-4">
+        {events.map((event) => (
+          <EventCard
+            key={event.id}
+            event={event}
+            onDelete={onDelete}
+            onArchive={onArchive}
+          />
+        ))}
+      </div>
     </div>
   );
 };
-
 export default EventList;
