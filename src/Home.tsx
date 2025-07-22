@@ -68,7 +68,7 @@ const Home = () => {
       toast.success(
         updatedEvent.status === "archived"
           ? "Event archived"
-          : "Event un-archived"
+          : "Event restored"
       );
     } catch (err) {
       console.error("Failed to archive/unarchive event:", err);
