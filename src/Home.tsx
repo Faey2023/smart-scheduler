@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import { Plus, Calendar, Loader2 } from "lucide-react";
 import type { Event } from "./types/event";
-import { fetchEvents, deleteEvent, archiveEvent } from "./lib/api";
+import { fetchEvents, createEvent, deleteEvent, archiveEvent } from "./lib/api";
 import EventForm from "./components/EventForm";
-
 import toast from "react-hot-toast";
 import EventList from "./components/EventList";
 
@@ -26,6 +25,25 @@ const Home = () => {
       console.error("Failed to load events:", error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleAddEvent = async (
+    eventData: Omit<Event, "id" | "category" | "status">
+  ) => {
+    try {
+      await createEvent(eventData);
+      const updatedEvents = await fetchEvents();
+      setEvents(
+        updatedEvents.sort(
+          (a, b) =>
+            new Date(`${a.date} ${a.time}`).getTime() -
+            new Date(`${b.date} ${b.time}`).getTime()
+        )
+      );
+      setShowForm(false);
+    } catch (err) {
+      console.error("Failed to add event:", err);
     }
   };
 
@@ -89,7 +107,10 @@ const Home = () => {
         {/* event form */}
         {showForm && (
           <div className="mb-8">
-            <EventForm />
+            <EventForm
+              onSubmit={handleAddEvent}
+              onCancel={() => setShowForm(false)}
+            />
           </div>
         )}
 

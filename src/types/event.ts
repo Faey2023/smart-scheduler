@@ -15,3 +15,7 @@ export interface EventListProps {
   onDelete: (id: string) => void;
   onArchive: (id: string) => void;
 }
+export interface EventFormProps {
+  onSubmit: (eventData: CreateEventData) => void;
+  onCancel: () => void;
+}
