@@ -42,24 +42,15 @@ const EventList = ({
   }
 
   return (
-    <div className="space-y-4">
-      <div className="flex items-center gap-2 mb-6">
-        <Calendar className="size-5 text-gray-600" />
-        <h2 className="text-lg font-semibold text-gray-900">
-          Upcoming Events ({events.length})
-        </h2>
-      </div>
-
-      <div className="grid gap-4">
-        {events.map((event) => (
-          <EventCard
-            key={event.id}
-            event={event}
-            onDelete={onDelete}
-            onArchive={onArchive}
-          />
-        ))}
-      </div>
+    <div className="grid gap-4">
+      {events.map((event) => (
+        <EventCard
+          key={event.id}
+          event={event}
+          onDelete={onDelete}
+          onArchive={onArchive}
+        />
+      ))}
     </div>
   );
 };

@@ -10,7 +10,6 @@ const Home = () => {
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
-  const [categoryFilter, setCategoryFilter] = useState("All");
 
   useEffect(() => {
     loadEvents();
@@ -67,18 +66,15 @@ const Home = () => {
       );
 
       toast.success(
-        updatedEvent.status === "archived" ? "Event archived" : "Event restored"
+        updatedEvent.status === "archived"
+          ? "Event archived"
+          : "Event restored"
       );
     } catch (err) {
       console.error("Failed to archive/unarchive event:", err);
       toast.error("Something went wrong");
     }
   };
-
-  const filteredEvents =
-    categoryFilter === "All"
-      ? events
-      : events.filter((event) => event.category === categoryFilter);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
@@ -117,30 +113,8 @@ const Home = () => {
             />
           </div>
         )}
-        <div className="flex justify-between">
-          <div className="flex items-center gap-2 mb-6">
-            <Calendar className="size-5 text-gray-600" />
-            <h2 className="text-lg font-semibold text-gray-900">
-              Upcoming Events ({events.length})
-            </h2>
-          </div>
-
-          <div>
-            <select
-              value={categoryFilter}
-              onChange={(e) => setCategoryFilter(e.target.value)}
-              className="px-3 py-2 cursor-pointer border border-gray-300 rounded-md shadow-sm text-sm  focus:outline-none bg-white"
-            >
-              <option value="All">All Categories</option>
-              <option value="Work">Work</option>
-              <option value="Personal">Personal</option>
-              <option value="Other">Other</option>
-            </select>
-          </div>
-        </div>
 
         {/* events */}
-
         <div>
           {loading ? (
             <div className="w-full bg-white rounded-lg shadow-lg border border-gray-200">
@@ -168,7 +142,7 @@ const Home = () => {
             </div>
           ) : (
             <EventList
-              events={filteredEvents}
+              events={events}
               onDelete={handleDelete}
               onArchive={handleArchive}
             />
